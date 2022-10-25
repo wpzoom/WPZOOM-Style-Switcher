@@ -65,7 +65,7 @@ class WPZOOM_Style_Switcher {
 	 */
 	public function __construct() {
 
-		add_action( 'wp_head', array( $this, 'output_css' ) );
+		//add_action( 'wp_head', array( $this, 'output_css' ) );
 
 		add_action( 'wp_footer', array( $this, 'output_switcher' ) );
 
@@ -76,7 +76,42 @@ class WPZOOM_Style_Switcher {
 
 	public function output_switcher() {
 
-		$styles = WP_Theme_JSON_Resolver::get_style_variations();
+		//$styles = WP_Theme_JSON_Resolver::get_style_variations();
+
+		$style_directory = WPZOOM_STYLE_SWITCHER_URL . 'assets/variations/';
+
+		$styles = array(
+			array(
+				'title' => 'Default',
+				'css'   => $style_directory . 'default.css',
+				'color' => '#fff'
+			),
+			array(
+				'title' => 'Bitter',
+				'css'   => $style_directory . 'bitter.css',
+				'color' => '#D80032'
+			),
+			array(
+				'title' => 'Epilogue',
+				'css'   => $style_directory . 'epilogue.css',
+				'color' => '#FFD100'
+			),
+			array(
+				'title' => 'Montserrat',
+				'css'   => $style_directory . 'montserrat.css',
+				'color' => '#5A13F1'
+			),
+			array(
+				'title' => 'Poppins',
+				'css'   => $style_directory . 'poppins.css',
+				'color' => '#FF9505'
+			),
+			array(
+				'title' => 'Yeseva One',
+				'css'   => $style_directory . 'yeseva-one.css',
+				'color' => '#40916C'
+			)
+		);
 
 		if( empty( $styles ) ) {
 			return;
@@ -88,11 +123,10 @@ class WPZOOM_Style_Switcher {
 						<ul id="navigation">
                 			<li>
                  				<div id="panel">
-                    				<div style="padding:10px 0; min-height: 50px;">
-                         				<a title="Default" class="default active" href="#"><span></span></a>';
+                    				<div style="padding:10px 0; min-height: 50px;">';
 										 foreach( $styles as $style ) {
-											$background = isset( $style['settings']['color']['palette']['theme'][0]['color'] ) ? ' style="background-color:' . $style['settings']['color']['palette']['theme'][0]['color'] . '"' : '';
-											$html .= '<a href="#" title="' . $style['title'] . '" class="' . sanitize_title( $style['title'] )  . '" data-style-variation="' . sanitize_title( $style['title'] ) . '"><span ' . $background . '></span></a>';
+											$background = isset( $style['color'] ) ? ' style="background-color:' . $style['color'] . '"' : '';
+											$html .= '<a href="' . $style['css'] . '" title="' . $style['title'] . '" class="' . sanitize_title( $style['title'] )  . '" data-style-variation="' . sanitize_title( $style['title'] ) . '"><span ' . $background . '></span></a>';
 										 }
 		$html .=						'<div class="clear"></div>
                      				</div>
@@ -106,18 +140,6 @@ class WPZOOM_Style_Switcher {
 			</div>';
 
 		echo $html;
-	}
-
-	public function output_css() {
-
-		$css = get_block_editor_theme_styles();
-
-		//print_r( $wp_styles );
-
-		$data = wp_get_global_settings();
-
-		//print_r( $data );
-
 	}
 
 	/**
@@ -145,14 +167,6 @@ class WPZOOM_Style_Switcher {
 			WPZOOM_STYLE_SWITCHER_VERSION,
 			true 
 		);
-		wp_enqueue_script( 
-			'wpzoom-style-switcher-values-js', 
-			WPZOOM_STYLE_SWITCHER_URL . 'assets/js/wpzoom-style-switcher-values.js',
-			array( 'jquery' ), 
-			WPZOOM_STYLE_SWITCHER_VERSION,
-			true 
-		);
-	
 	}
 
 	

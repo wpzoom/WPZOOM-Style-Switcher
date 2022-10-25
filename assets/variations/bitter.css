@@ -1,0 +1,6 @@
+:root {
+	--wp--preset--color--primary:#D80032;
+}
+.wp-block-button__link {
+	background-color: red;
+}

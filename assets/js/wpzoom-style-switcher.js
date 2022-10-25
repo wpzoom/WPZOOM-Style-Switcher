@@ -4,10 +4,20 @@
 $(function () {
 
 
-   $("#panel a").click(function(e){
+$( "#panel a" ).on( 'click', function(e){
 	e.preventDefault();
-		$('#panel').find('a.active').removeClass("active");
+		
+	$('#panel').find('a.active').removeClass("active");
 		$(this).addClass("active");
+		$('#wpzoom-theme-css').remove();
+
+		var href = $(this).attr('href');
+		var link_stylesheet = '<link rel="stylesheet" id="wpzoom-theme-css" class=type="text/css" href="' + href + '">';
+
+		$('head').append( link_stylesheet );
+		
+		//console.log( link_stylesheet );
+		//return false;
    });  
 
 });
@@ -18,7 +28,7 @@ $(function () {
 jQuery(document).ready(function(){
 	jQuery(".wpzoom-style-picker").fadeIn();
 
-	jQuery(".wpzoom-style-picker .close-button").bind("click", function(e){
+	jQuery(".wpzoom-style-picker .close-button").on("click", function(e){
 		jQuery(".wpzoom-style-picker").toggleClass("closed");
 		e.preventDefault();
 	});
@@ -38,7 +48,7 @@ jQuery(document).ready(function(){
 		});
 	});
 
-	jQuery('label[id^="wpzoom-style-picker-"]').bind( "click" , function(e){
+	jQuery('label[id^="wpzoom-style-picker-"]').on( "click" , function(e){
 		var $inputid = "#" + jQuery(this).attr( 'data-input' );
 		var $input = jQuery( $inputid );
 
@@ -66,7 +76,7 @@ jQuery(document).ready(function(){
 		jQuery(this).data("old", jQuery(this).val() );
 	});
 
-	jQuery('[name^="wpzoom-style-picker-"]').bind( "change" , function(e){
+	jQuery('[name^="wpzoom-style-picker-"]').on( "change" , function(e){
 		jQuery(this).data("new", jQuery(this).val());
 
 		var $selector = jQuery(this).attr("data-selector");
